@@ -1,0 +1,30 @@
+version: "3"
+services:
+  deployer:
+    build:
+      context: .
+      dockerfile: ./lab/Docker/deployer.Dockerfile
+    working_dir: /root/playbooks
+    volumes:
+      - "./ansible/hosts:/etc/ansible/hosts"
+      - "./ansible/playbooks:/root/playbooks"
+      - "~/.ssh/id_rsa:/root/.ssh/id_rsa:ro"
+      - "~/.ssh/id_rsa.pub:/root/.ssh/authorized_keys:ro"
+
+  db:
+    build:
+      context: .
+      dockerfile: ./lab/Docker/host.Dockerfile
+    volumes:
+      - "~/.ssh/id_rsa.pub:/etc/ssh/authorized_keys:ro"
+    ports:
+      - 3306:3306
+
+  web:
+    build:
+      context: .
+      dockerfile: ./lab/Docker/host.Dockerfile
+    volumes:
+      - "~/.ssh/id_rsa.pub:/etc/ssh/authorized_keys:ro"
+    ports: 
+      - 80:80
