@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install python3-pip --no-install-recommends --assu
     && apt-get install -y vim net-tools telnet curl openssh-client \
     && mkdir -p /etc/ansible \
     && mv /etc/copydir/ansible.cfg /etc/ansible/ansible.cfg \
+    && rm -rf /etc/copydir && apt-get clean && apt-get autoremove \
     && mkdir -p /root/.ssh/ \
     && echo 'eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa' >> ~/.bashrc
 CMD [ "tail", "-f", "/dev/null" ]
